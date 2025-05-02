@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="4dp"
@@ -52,14 +53,17 @@
                 android:maxLines="1" />
         </LinearLayout>
 
-        <!-- Time indicator -->
-        <TextView
-            android:id="@+id/recent_location_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:textColor="#9E9E9E"
-            android:layout_marginStart="8dp" />
+        <!-- Delete button -->
+        <ImageButton
+            android:id="@+id/btn_delete_recent"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Delete this location"
+            android:src="@drawable/ic_delete"
+            app:tint="#757575"
+            tools:ignore="TouchTargetSizeCheck" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

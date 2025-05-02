@@ -212,16 +212,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_home -> supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, HomeFragment()).commit()
-
-            R.id.nav_settings -> supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, SettingsFragment()).commit()
-
-            R.id.nav_share -> supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, ShareFragment()).commit()
+                .replace(R.id.fragment_container, HomeFragment())
+                .commit()
 
             R.id.nav_about -> supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, AboutFragment()).commit()
+                .replace(R.id.fragment_container, AboutFragment())
+                .addToBackStack(null) // Enable back button navigation
+                .commit()
 
             R.id.nav_logout -> {
                 showLogoutConfirmationDialog()
@@ -240,6 +237,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
+
 
     private fun showLogoutConfirmationDialog() {
         AlertDialog.Builder(this)
