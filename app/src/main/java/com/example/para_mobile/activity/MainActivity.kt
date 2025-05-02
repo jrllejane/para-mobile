@@ -8,6 +8,8 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -27,6 +29,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import com.example.para_mobile.fragment.AboutFragment
 import com.example.para_mobile.fragment.HomeFragment
+import com.example.para_mobile.fragment.ProfileFragment
 import com.example.para_mobile.fragment.SettingsFragment
 import com.example.para_mobile.fragment.ShareFragment
 import com.google.android.material.navigation.NavigationView
@@ -133,6 +136,51 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .replace(R.id.fragment_container, HomeFragment()).commit()
             navigationView.setCheckedItem(R.id.nav_home)
         }
+
+        // Set up the navigation header with user info
+        setupNavHeader()
+    }
+
+    // Set up the navigation header with user info and profile button
+    private fun setupNavHeader() {
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        val headerView = navigationView.getHeaderView(0)
+
+        // Get user info from SharedPreferences
+        val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val username = sharedPref.getString("username", "Username")
+        val email = sharedPref.getString("email", "emailaddress")
+
+        // Set the username and email in the header
+        val tvUsername = headerView.findViewById<TextView>(R.id.tvUsername)
+        val tvEmail = headerView.findViewById<TextView>(R.id.tvEmail)
+        tvUsername.text = username
+        tvEmail.text = email
+
+        // Set up the profile button click listener
+        val btnViewProfile = headerView.findViewById<ImageButton>(R.id.btnViewProfile)
+        btnViewProfile.setOnClickListener {
+            // Close the drawer
+            drawerLayout.closeDrawer(GravityCompat.START)
+
+            // Navigate to profile fragment
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, ProfileFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+    }
+
+    // Method to update the navigation header with new user info
+    fun updateNavHeader(username: String?, email: String?) {
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        val headerView = navigationView.getHeaderView(0)
+
+        val tvUsername = headerView.findViewById<TextView>(R.id.tvUsername)
+        val tvEmail = headerView.findViewById<TextView>(R.id.tvEmail)
+
+        tvUsername.text = username ?: "Username"
+        tvEmail.text = email ?: "emailaddress"
     }
 
     // Override dispatchTouchEvent to handle touches outside the bottom sheet
@@ -201,6 +249,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 // Handle logout logic: Clear the authentication token from SharedPreferences
                 val editor = sharedPrefs.edit()
                 editor.remove("jwt_token")  // Remove the JWT token using the correct key
+                editor.remove("username")   // Also remove username
+                editor.remove("email")      // Also remove email
+                editor.remove("user_id")    // Also remove user ID
                 editor.apply()
 
                 // Clear cache (optional)
@@ -460,5 +511,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // We don't need to replace the fragment_container anymore
         // as the fragment will be loaded into the bottom sheet
     }
-
 }

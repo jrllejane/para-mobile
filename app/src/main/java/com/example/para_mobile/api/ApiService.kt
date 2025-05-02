@@ -6,32 +6,59 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Query
 
-data class RegisterRequest(
+data class SignupRequest(
     val username: String,
     val email: String,
-    val password: String,
-    val role: String
+    val password: String
 )
 
-data class LoginRequest(val username: String, val password: String)
-
-data class LoginResponse(val token: String) // JWT Token response
-
-data class UserProfile(val username: String, val email: String, val role: String)
+data class LoginRequest(
+    val email: String,  // Changed from username to email
+    val password: String
+)
 
 interface ApiService {
+    // Register User - Updated to match backend endpoint
+    @POST("api/auth/signup")
+    fun registerUser(@Body request: SignupRequest): Call<Map<String, Any>>
 
-    // Register User
-    @POST("api/users/register")
-    fun registerUser(@Body request: RegisterRequest): Call<UserProfile>
+    // Login User - Updated to match backend endpoint
+    @POST("api/auth/login")
+    fun loginUser(@Body request: LoginRequest): Call<Map<String, String>>
 
-    // Login User
-    @POST("api/users/login")
-    fun loginUser(@Body request: LoginRequest): Call<LoginResponse>
+    // Google Authentication
+    @POST("api/auth/login-with-google")
+    fun loginWithGoogle(@Body request: Map<String, String>): Call<Map<String, String>>
 
-    // Get All Routes - Make sure this matches your backend endpoint exactly
+    @POST("api/auth/register-with-google")
+    fun registerWithGoogle(@Body request: Map<String, String>): Call<Map<String, Any>>
+
+    // Validate token
+    @GET("api/auth/validate-token")
+    fun validateToken(@Header("Authorization") token: String): Call<Map<String, Any>>
+
+    // Get user profile
+    @GET("api/users/profile")
+    fun getUserProfile(@Header("Authorization") token: String): Call<Map<String, Any>>
+
+    // Update user profile
+    @POST("api/users/profile")
+    fun updateUserProfile(
+        @Header("Authorization") token: String,
+        @Body updates: Map<String, String>
+    ): Call<Map<String, Any>>
+
+    // Change password
+    @POST("api/users/change-password")
+    fun changePassword(
+        @Header("Authorization") token: String,
+        @Body passwordData: Map<String, String>
+    ): Call<Map<String, Any>>
+
+    // Get All Routes
     @GET("api/routes/all")
     fun getAllRoutes(@Header("Authorization") token: String): Call<List<JeepneyRoute>>
 
@@ -42,4 +69,3 @@ interface ApiService {
         @Query("routeNumber") routeNumber: String
     ): Call<JeepneyRoute>
 }
-

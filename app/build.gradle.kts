@@ -85,6 +85,12 @@ dependencies {
     // Kotlin coroutines for delay and other coroutine features
     implementation (libs.kotlinx.coroutines.android)
 
+    implementation (libs.play.services.auth) //google
+
+    implementation (libs.play.services.auth.v2050)
+    implementation (libs.gotrue.kt)
+    implementation (libs.supabase.kt)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

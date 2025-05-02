@@ -76,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Email or Phone number"
+        android:text="Email"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:hint="Enter your email or number"
+                android:hint="Enter your email"
                 android:inputType="textEmailAddress"
                 android:textColorHint="#CCCCCC"
                 android:textSize="14sp" />
@@ -155,7 +155,7 @@
                 android:layout_height="20dp"
                 android:layout_marginEnd="12dp"
                 android:src="@drawable/ic_lock"
-               />
+                />
 
             <EditText
                 android:id="@+id/etPassword"
@@ -195,6 +195,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cvPassword" />
+
+    <!-- Progress Bar - Added properly positioned -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btnRegister"
+        app:layout_constraintEnd_toEndOf="@+id/btnRegister"
+        app:layout_constraintStart_toStartOf="@+id/btnRegister"
+        app:layout_constraintTop_toTopOf="@+id/btnRegister" />
 
     <TextView
         android:id="@+id/tvSocialAccount"
@@ -307,4 +318,3 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
